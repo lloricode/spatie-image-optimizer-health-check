@@ -1,4 +1,4 @@
-# This is my package spatie-image-optimizer-health-check
+# Spatie Image Optimizer Health Check
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloricode/spatie-image-optimizer-health-check.svg?style=flat-square)](https://packagist.org/packages/lloricode/spatie-image-optimizer-health-check)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/lloricode/spatie-image-optimizer-health-check/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/lloricode/spatie-image-optimizer-health-check/actions?query=workflow%3Arun-tests+branch%3Amain)
