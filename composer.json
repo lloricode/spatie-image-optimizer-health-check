@@ -19,8 +19,10 @@
     ],
     "require": {
         "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^8.0|^9.0"
+        "illuminate/contracts": "^8.0|^9.0",
+        "spatie/enum": "^3.13",
+        "spatie/laravel-health": "^1.19",
+        "spatie/laravel-package-tools": "^1.12.1"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -62,12 +64,6 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Lloricode\\SpatieImageOptimizerHealthCheck\\SpatieImageOptimizerHealthCheckServiceProvider"
-            ],
-            "aliases": {
-                "SpatieImageOptimizerHealthCheck": "Lloricode\\SpatieImageOptimizerHealthCheck\\Facades\\SpatieImageOptimizerHealthCheck"
-            }
         }
     },
     "minimum-stability": "dev",
