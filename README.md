@@ -6,7 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/lloricode/spatie-image-optimizer-health-check.svg?style=flat-square)](https://packagist.org/packages/lloricode/spatie-image-optimizer-health-check)
 
 When using [laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) it uses [image-optimizer](https://github.com/spatie/image-optimizer) under the hood, and probably this would not work if optimizer tools is not installed on you server.
-These checks are where you can check if optimizer is installed on you server.
+These checks are where you can check if optimizer is installed on your server.
 
 ## Installation
 
