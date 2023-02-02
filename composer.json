@@ -1,6 +1,6 @@
 {
     "name": "lloricode/spatie-image-optimizer-health-check",
-    "description": "This is my package spatie-image-optimizer-health-check",
+    "description": "These checks are where you can check if optimizer is installed on your server.",
     "keywords": [
         "lloricode",
         "laravel",
@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^8.0|^9.0",
+        "illuminate/contracts": "^8.0|^9.0|^10.0",
         "spatie/enum": "^3.13",
         "spatie/laravel-health": "^1.19",
         "spatie/laravel-package-tools": "^1.12.1"
