@@ -39,7 +39,7 @@ class ImageOptimizerCheck extends Check
             }
         }
 
-        return Result::make()->ok();
+        return $result->ok();
     }
 
     protected function shouldPerformCheck(Optimizer $optimizer): bool
