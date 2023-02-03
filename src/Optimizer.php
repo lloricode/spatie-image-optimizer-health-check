@@ -25,13 +25,13 @@ class Optimizer extends Enum
             'PNGQUANT' => 'pngquant',
             'SVGO' => 'svgo',
             'GIFSICLE' => 'gifsicle',
-            'WEBP' => 'webp',
+            'WEBP' => 'cwebp',
         ];
     }
 
     public function check(int $timeout = 60): CheckResult
     {
-        $process = Process::fromShellCommandline($this->value.' --version');
+        $process = Process::fromShellCommandline($this->value);
 
         $process
             ->setTimeout($timeout)
