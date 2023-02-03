@@ -29,9 +29,17 @@ class Optimizer extends Enum
         ];
     }
 
+    protected function command(): string
+    {
+        return match ($this) {
+            self::WEBP() => $this->value,
+            default => $this->value.' --version',
+        };
+    }
+
     public function check(int $timeout = 60): CheckResult
     {
-        $process = Process::fromShellCommandline((string) $this->value);
+        $process = Process::fromShellCommandline($this->command());
 
         $process
             ->setTimeout($timeout)
