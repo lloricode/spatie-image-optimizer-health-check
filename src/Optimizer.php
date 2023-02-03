@@ -31,7 +31,7 @@ class Optimizer extends Enum
 
     public function check(int $timeout = 60): CheckResult
     {
-        $process = Process::fromShellCommandline($this->value);
+        $process = Process::fromShellCommandline((string) $this->value);
 
         $process
             ->setTimeout($timeout)
