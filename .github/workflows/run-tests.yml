@@ -18,6 +18,8 @@ jobs:
         laravel: [9.*] # to support all php versions
 #        stability: [prefer-lowest, prefer-stable]
         stability: [prefer-stable]
+        include:
+          - carbon: ^2.63
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
