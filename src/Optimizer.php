@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lloricode\SpatieImageOptimizerHealthCheck;
 
-use Illuminate\Support\Facades\Process;
-
 enum Optimizer: string
 {
     case JPEGOPTIM = 'jpegoptim';
@@ -21,16 +19,5 @@ enum Optimizer: string
             self::WEBP => $this->value,
             default => $this->value.' --version',
         };
-    }
-
-    public function check(int $timeout = 60): CheckResult
-    {
-        $process = Process::timeout($timeout)->run($this->command());
-
-        if ($process->successful()) {
-            return new CheckResult(true, $process->output());
-        }
-
-        return new CheckResult(false, $process->errorOutput());
     }
 }

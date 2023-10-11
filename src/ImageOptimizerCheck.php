@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lloricode\SpatieImageOptimizerHealthCheck;
 
+use Illuminate\Support\Facades\Process;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
@@ -37,7 +38,7 @@ class ImageOptimizerCheck extends Check
             ->each(
                 function (Optimizer $optimizer) use (&$result) {
                     if ($this->shouldPerformCheck($optimizer)) {
-                        $checkResult = $optimizer->check($this->timeout);
+                        $checkResult = $this->check($optimizer);
                         if (! $checkResult->success) {
 
                             $result = Result::make()->failed($checkResult->message);
@@ -53,7 +54,18 @@ class ImageOptimizerCheck extends Check
         return $result;
     }
 
-    protected function shouldPerformCheck(Optimizer $optimizer): bool
+    private function check(Optimizer $optimizer): CheckResult
+    {
+        $process = Process::timeout($this->timeout)->run($optimizer->command());
+
+        if ($process->successful()) {
+            return new CheckResult(true, $process->output());
+        }
+
+        return new CheckResult(false, $process->errorOutput());
+    }
+
+    private function shouldPerformCheck(Optimizer $optimizer): bool
     {
         if ($this->checks === null) {
             //            ray($optimizer)->green();
