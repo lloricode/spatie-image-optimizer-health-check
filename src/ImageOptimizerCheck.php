@@ -37,11 +37,15 @@ class ImageOptimizerCheck extends Check
         collect(Optimizer::cases())
             ->each(
                 function (Optimizer $optimizer) use (&$result) {
-                    if ($this->shouldPerformCheck($optimizer)) {
-                        $checkResult = $this->check($optimizer);
-                        if (! $checkResult->success) {
 
-                            $result = Result::make()->failed($checkResult->message);
+                    if ($this->shouldPerformCheck($optimizer)) {
+
+                        $checkResult = $this->check($optimizer);
+
+                        // phpstan error: Method Lloricode\SpatieImageOptimizerHealthCheck\ImageOptimizerCheck::run() should return Spatie\Health\Checks\Result but returns Spatie\Health\Checks\Result|false.
+                        if (! is_bool($checkResult)) {
+
+                            $result = $checkResult;
 
                             return false;
                         }
@@ -54,15 +58,16 @@ class ImageOptimizerCheck extends Check
         return $result;
     }
 
-    private function check(Optimizer $optimizer): CheckResult
+    private function check(Optimizer $optimizer): Result|bool // TODO: remove `bool` then use `true` on php 8.2
     {
-        $process = Process::timeout($this->timeout)->run($optimizer->command());
+        $process = Process::timeout($this->timeout)
+            ->run($optimizer->command());
 
         if ($process->successful()) {
-            return new CheckResult(true, $process->output());
+            return true;
         }
 
-        return new CheckResult(false, $process->errorOutput());
+        return Result::make()->failed($process->errorOutput());
     }
 
     private function shouldPerformCheck(Optimizer $optimizer): bool
