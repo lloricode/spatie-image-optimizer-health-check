@@ -64,31 +64,31 @@ class ImageOptimizerCheck extends Check
 
     public function checkJPEGOPTIM(): self
     {
-        return $this->addCheck(Optimizer::JPEGOPTIM());
+        return $this->addCheck(Optimizer::JPEGOPTIM);
     }
 
     public function checkOPTIPNG(): self
     {
-        return $this->addCheck(Optimizer::OPTIPNG());
+        return $this->addCheck(Optimizer::OPTIPNG);
     }
 
     public function checkPNGQUANT(): self
     {
-        return $this->addCheck(Optimizer::PNGQUANT());
+        return $this->addCheck(Optimizer::PNGQUANT);
     }
 
     public function checkSVGO(): self
     {
-        return $this->addCheck(Optimizer::SVGO());
+        return $this->addCheck(Optimizer::SVGO);
     }
 
     public function checkGIFSICLE(): self
     {
-        return $this->addCheck(Optimizer::GIFSICLE());
+        return $this->addCheck(Optimizer::GIFSICLE);
     }
 
     public function checkWEBP(): self
     {
-        return $this->addCheck(Optimizer::WEBP());
+        return $this->addCheck(Optimizer::WEBP);
     }
 }
