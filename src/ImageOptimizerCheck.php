@@ -10,6 +10,7 @@ use Spatie\Health\Checks\Result;
 class ImageOptimizerCheck extends Check
 {
     private ?array $checks = null;
+
     private int $timeout = 60;
 
     public function timeout(int $timeout): self
@@ -33,7 +34,7 @@ class ImageOptimizerCheck extends Check
         foreach (Optimizer::cases() as $optimizer) {
             if ($this->shouldPerformCheck($optimizer)) {
                 $checkResult = $optimizer->check($this->timeout);
-                if ( ! $checkResult->success) {
+                if (! $checkResult->success) {
                     return $result->failed($checkResult->message);
                 }
             }
