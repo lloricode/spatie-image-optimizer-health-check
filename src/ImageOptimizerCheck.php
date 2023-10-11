@@ -29,25 +29,35 @@ class ImageOptimizerCheck extends Check
 
     public function run(): Result
     {
-        $result = Result::make();
+        $result = Result::make()->ok();
 
-        foreach (Optimizer::cases() as $optimizer) {
-            if ($this->shouldPerformCheck($optimizer)) {
-                $checkResult = $optimizer->check($this->timeout);
-                if (! $checkResult->success) {
-                    return $result->failed($checkResult->message);
+        collect(Optimizer::cases())
+            ->each(
+                function (Optimizer $optimizer) use (&$result) {
+                    if ($this->shouldPerformCheck($optimizer)) {
+                        $checkResult = $optimizer->check($this->timeout);
+                        if (! $checkResult->success) {
+
+                            $result = Result::make()->failed($checkResult->message);
+
+                            return false;
+                        }
+                    }
+
+                    return true;
                 }
-            }
-        }
+            );
 
-        return $result->ok();
+        return $result;
     }
 
     protected function shouldPerformCheck(Optimizer $optimizer): bool
     {
         if ($this->checks === null) {
+            //            ray($optimizer)->green();
             return true;
         }
+        //        ray($optimizer)->orange();
 
         return in_array($optimizer, $this->checks);
     }

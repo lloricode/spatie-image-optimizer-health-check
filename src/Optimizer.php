@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Lloricode\SpatieImageOptimizerHealthCheck;
 
+use Illuminate\Support\Facades\Process;
 use Spatie\Enum\Enum;
-use Symfony\Component\Process\Process;
 
 /**
  * @method static self JPEGOPTIM()
@@ -29,7 +29,7 @@ class Optimizer extends Enum
         ];
     }
 
-    protected function command(): string
+    public function command(): string
     {
         return match ($this) {
             self::WEBP() => $this->value,
@@ -39,16 +39,12 @@ class Optimizer extends Enum
 
     public function check(int $timeout = 60): CheckResult
     {
-        $process = Process::fromShellCommandline($this->command());
+        $process = Process::timeout($timeout)->run($this->command());
 
-        $process
-            ->setTimeout($timeout)
-            ->run();
-
-        if ($process->isSuccessful()) {
-            return new CheckResult(true, $process->getOutput());
+        if ($process->successful()) {
+            return new CheckResult(true, $process->output());
         }
 
-        return new CheckResult(false, $process->getErrorOutput());
+        return new CheckResult(false, $process->errorOutput());
     }
 }

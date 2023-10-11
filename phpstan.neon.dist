@@ -8,3 +8,7 @@ parameters:
     checkModelProperties: true
     checkMissingIterableValueType: false
 
+    earlyTerminatingFunctionCalls:
+        - rd
+        - dd
+
