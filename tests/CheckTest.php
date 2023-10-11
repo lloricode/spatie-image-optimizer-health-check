@@ -60,14 +60,34 @@ it('passed check w/ only one checks', function (Optimizer $optimizer) {
     ]);
 
     $result = (new ImageOptimizerCheck())
-        ->addCheck($optimizer)
-        ->run();
+        ->{'check'.match ($optimizer) {
+            Optimizer::JPEGOPTIM => 'JPEGOPTIM',
+            Optimizer::OPTIPNG => 'OPTIPNG',
+            Optimizer::PNGQUANT => 'PNGQUANT',
+            Optimizer::SVGO => 'SVGO',
+            Optimizer::GIFSICLE => 'GIFSICLE',
+            Optimizer::WEBP => 'WEBP',
+        }}()
+            ->run();
 
     expect($result->status)
         ->toBe(checkOk(), $result->notificationMessage);
 
 })
     ->with(fn () => Optimizer::cases());
+
+it('use timeout', function () {
+
+    Process::fake();
+
+    $result = (new ImageOptimizerCheck())
+        ->timeout(fake()->numberBetween(100, 200))
+        ->run();
+
+    expect($result->status)
+        ->toBe(checkOk(), $result->notificationMessage);
+
+});
 
 function checkOk(): Status
 {
