@@ -20,9 +20,11 @@ class ImageOptimizerCheck extends Check
         return $this;
     }
 
-    private function addCheck(Optimizer $optimizer): self
+    public function addCheck(Optimizer $optimizer): self
     {
-        $this->checks[] = $optimizer;
+        if (! in_array($optimizer, $this->checks ?? [])) {
+            $this->checks[] = $optimizer;
+        }
 
         return $this;
     }

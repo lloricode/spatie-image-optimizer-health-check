@@ -20,7 +20,7 @@ it('all check ok w/o output', function () {
 
 it('all check ok w/ output', function () {
 
-    fakeAllCommand();
+    fakeSuccessAllCommand();
 
     $result = (new ImageOptimizerCheck())->run();
 
@@ -29,9 +29,9 @@ it('all check ok w/ output', function () {
 
 });
 
-it('failed check w/ one error', function (Optimizer $optimizer) {
+it('failed check w/ only one error', function (Optimizer $optimizer) {
 
-    fakeAllCommand();
+    fakeSuccessAllCommand();
 
     Process::fake([
         $optimizer->command() => Process::result(
@@ -45,6 +45,26 @@ it('failed check w/ one error', function (Optimizer $optimizer) {
 
     expect($result->status)
         ->toBe(checkFailed(), $result->notificationMessage);
+
+})
+    ->with(fn () => Optimizer::cases());
+
+it('passed check w/ only one checks', function (Optimizer $optimizer) {
+
+    fakeFailedAllCommand();
+
+    Process::fake([
+        $optimizer->command() => Process::result(
+            output: 'test output',
+        ),
+    ]);
+
+    $result = (new ImageOptimizerCheck())
+        ->addCheck($optimizer)
+        ->run();
+
+    expect($result->status)
+        ->toBe(checkOk(), $result->notificationMessage);
 
 })
     ->with(fn () => Optimizer::cases());
