@@ -20,6 +20,7 @@ jobs:
         stability: [prefer-stable]
         include:
           - carbon: ^2.63
+            testbench: 8.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
