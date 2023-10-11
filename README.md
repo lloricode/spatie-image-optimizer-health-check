@@ -4,6 +4,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/lloricode/spatie-image-optimizer-health-check/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/lloricode/spatie-image-optimizer-health-check/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/lloricode/spatie-image-optimizer-health-check/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/lloricode/spatie-image-optimizer-health-check/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloricode/spatie-image-optimizer-health-check.svg?style=flat-square)](https://packagist.org/packages/lloricode/spatie-image-optimizer-health-check)
+[![codecov](https://codecov.io/gh/lloricode/spatie-image-optimizer-health-check/graph/badge.svg?token=JGTEWCVFKR)](https://codecov.io/gh/lloricode/spatie-image-optimizer-health-check)
 
 When using [laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) it uses [image-optimizer](https://github.com/spatie/image-optimizer) under the hood, and probably this would not work if optimizer tools is not installed on you server.
 These checks are where you can check if optimizer is installed on your server.
