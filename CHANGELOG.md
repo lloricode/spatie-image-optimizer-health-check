@@ -2,6 +2,11 @@
 
 All notable changes to `spatie-image-optimizer-health-check` will be documented in this file.
 
+## 2.0.1 - 2023-03-09
+
+- Add support for laravel 11
+- Drop support for php 8.1
+
 ## 2.0.0 - 2023-10-12
 
 - Drop support for PHP 8.0 and below (to use Process facade and able to mock for testing).
