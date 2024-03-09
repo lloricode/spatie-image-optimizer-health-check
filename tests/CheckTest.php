@@ -60,7 +60,7 @@ it('passed check w/ only one checks', function (Optimizer $optimizer) {
     ]);
 
     $result = (new ImageOptimizerCheck())
-        ->addCheck($optimizer)
+        ->addChecks($optimizer)
         ->run();
 
     expect($result->status)

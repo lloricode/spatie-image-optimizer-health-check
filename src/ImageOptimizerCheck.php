@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Lloricode\SpatieImageOptimizerHealthCheck;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
 class ImageOptimizerCheck extends Check
 {
+    /**
+     * @var array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>|null
+     */
     private ?array $checks = null;
 
     private int $timeout = 60;
@@ -21,10 +25,15 @@ class ImageOptimizerCheck extends Check
         return $this;
     }
 
-    public function addCheck(Optimizer $optimizer): self
+    /**
+     * @param  \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer|array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>  $optimizers
+     */
+    public function addChecks(array|Optimizer $optimizers): self
     {
-        if (! in_array($optimizer, $this->checks ?? [])) {
-            $this->checks[] = $optimizer;
+        foreach (Arr::wrap($optimizers) as $optimizer) {
+            if (! in_array($optimizer, $this->checks ?? [])) {
+                $this->checks[] = $optimizer;
+            }
         }
 
         return $this;
@@ -78,39 +87,39 @@ class ImageOptimizerCheck extends Check
         return in_array($optimizer, $this->checks);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkJPEGOPTIM(): self
     {
-        return $this->addCheck(Optimizer::JPEGOPTIM);
+        return $this->addChecks(Optimizer::JPEGOPTIM);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkOPTIPNG(): self
     {
-        return $this->addCheck(Optimizer::OPTIPNG);
+        return $this->addChecks(Optimizer::OPTIPNG);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkPNGQUANT(): self
     {
-        return $this->addCheck(Optimizer::PNGQUANT);
+        return $this->addChecks(Optimizer::PNGQUANT);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkSVGO(): self
     {
-        return $this->addCheck(Optimizer::SVGO);
+        return $this->addChecks(Optimizer::SVGO);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkGIFSICLE(): self
     {
-        return $this->addCheck(Optimizer::GIFSICLE);
+        return $this->addChecks(Optimizer::GIFSICLE);
     }
 
-    /** @deprecated use addCheck() will be removed on v3 */
+    /** @deprecated use addChecks() will be removed on v3 */
     public function checkWEBP(): self
     {
-        return $this->addCheck(Optimizer::WEBP);
+        return $this->addChecks(Optimizer::WEBP);
     }
 }
