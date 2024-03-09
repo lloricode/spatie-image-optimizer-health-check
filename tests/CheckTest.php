@@ -60,15 +60,8 @@ it('passed check w/ only one checks', function (Optimizer $optimizer) {
     ]);
 
     $result = (new ImageOptimizerCheck())
-        ->{'check'.match ($optimizer) {
-            Optimizer::JPEGOPTIM => 'JPEGOPTIM',
-            Optimizer::OPTIPNG => 'OPTIPNG',
-            Optimizer::PNGQUANT => 'PNGQUANT',
-            Optimizer::SVGO => 'SVGO',
-            Optimizer::GIFSICLE => 'GIFSICLE',
-            Optimizer::WEBP => 'WEBP',
-        }}()
-            ->run();
+        ->addCheck($optimizer)
+        ->run();
 
     expect($result->status)
         ->toBe(checkOk(), $result->notificationMessage);

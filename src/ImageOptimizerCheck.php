@@ -21,7 +21,7 @@ class ImageOptimizerCheck extends Check
         return $this;
     }
 
-    private function addCheck(Optimizer $optimizer): self
+    public function addCheck(Optimizer $optimizer): self
     {
         if (! in_array($optimizer, $this->checks ?? [])) {
             $this->checks[] = $optimizer;
@@ -36,19 +36,18 @@ class ImageOptimizerCheck extends Check
 
         collect(Optimizer::cases())
             ->each(
-                function (Optimizer $optimizer) use (&$result) {
+                function (Optimizer $optimizer) use (&$result): bool {
 
-                    if ($this->shouldPerformCheck($optimizer)) {
+                    if (! $this->shouldPerformCheck($optimizer)) {
+                        return true;
+                    }
 
-                        $checkResult = $this->check($optimizer);
+                    $checkResult = $this->check($optimizer);
 
-                        // phpstan error: Method Lloricode\SpatieImageOptimizerHealthCheck\ImageOptimizerCheck::run() should return Spatie\Health\Checks\Result but returns Spatie\Health\Checks\Result|false.
-                        if (! is_bool($checkResult)) {
+                    if ($checkResult !== true) {
+                        $result = $checkResult;
 
-                            $result = $checkResult;
-
-                            return false;
-                        }
+                        return false;
                     }
 
                     return true;
@@ -58,7 +57,7 @@ class ImageOptimizerCheck extends Check
         return $result;
     }
 
-    private function check(Optimizer $optimizer): Result|bool // TODO: remove `bool` then use `true` on php 8.2
+    private function check(Optimizer $optimizer): Result|true
     {
         $process = Process::timeout($this->timeout)
             ->run($optimizer->command());
@@ -73,39 +72,43 @@ class ImageOptimizerCheck extends Check
     private function shouldPerformCheck(Optimizer $optimizer): bool
     {
         if ($this->checks === null) {
-            //            ray($optimizer)->green();
             return true;
         }
-        //        ray($optimizer)->orange();
 
         return in_array($optimizer, $this->checks);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkJPEGOPTIM(): self
     {
         return $this->addCheck(Optimizer::JPEGOPTIM);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkOPTIPNG(): self
     {
         return $this->addCheck(Optimizer::OPTIPNG);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkPNGQUANT(): self
     {
         return $this->addCheck(Optimizer::PNGQUANT);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkSVGO(): self
     {
         return $this->addCheck(Optimizer::SVGO);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkGIFSICLE(): self
     {
         return $this->addCheck(Optimizer::GIFSICLE);
     }
 
+    /** @deprecated use addCheck() will be removed on v3 */
     public function checkWEBP(): self
     {
         return $this->addCheck(Optimizer::WEBP);
