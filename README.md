@@ -29,14 +29,24 @@ Health::checks([
 ]);
 
 # specific optimizer
+use Lloricode\SpatieImageOptimizerHealthCheck\Optimizer;
+
 Health::checks([
     ImageOptimizerCheck::new()
-        ->checkJPEGOPTIM()
-        ->checkOPTIPNG()
-        ->checkPNGQUANT()
-        ->checkSVGO()
-        ->checkGIFSICLE()
-        ->checkWEBP(),
+        ->addChecks(Optimizer::JPEGOPTIM),
+]);
+
+# multiple
+Health::checks([
+    ImageOptimizerCheck::new()
+        ->addChecks([
+            Optimizer::JPEGOPTIM,
+            Optimizer::OPTIPNG,
+            Optimizer::PNGQUANT,
+            Optimizer::SVGO,
+            Optimizer::GIFSICLE,
+            Optimizer::WEBP,
+        ]),
 ]);
 ```
 
