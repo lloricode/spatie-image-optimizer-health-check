@@ -2,6 +2,10 @@
 
 All notable changes to `spatie-image-optimizer-health-check` will be documented in this file.
 
+## 2.0.2 - 2023-03-09
+
+- Optimize code for php 8.2
+
 ## 2.0.1 - 2023-03-09
 
 - Add support for laravel 11
