@@ -11,7 +11,7 @@ it('all check ok w/o output', function () {
 
     Process::fake();
 
-    $result = (new ImageOptimizerCheck())->run();
+    $result = (new ImageOptimizerCheck)->run();
 
     expect($result->status)
         ->toBe(checkOk(), $result->notificationMessage);
@@ -22,7 +22,7 @@ it('all check ok w/ output', function () {
 
     fakeSuccessAllCommand();
 
-    $result = (new ImageOptimizerCheck())->run();
+    $result = (new ImageOptimizerCheck)->run();
 
     expect($result->status)
         ->toBe(checkOk(), $result->notificationMessage);
@@ -41,7 +41,7 @@ it('failed check w/ only one error', function (Optimizer $optimizer) {
         ),
     ]);
 
-    $result = (new ImageOptimizerCheck())->run();
+    $result = (new ImageOptimizerCheck)->run();
 
     expect($result->status)
         ->toBe(checkFailed(), $result->notificationMessage);
@@ -59,7 +59,7 @@ it('passed check w/ only one checks', function (Optimizer $optimizer) {
         ),
     ]);
 
-    $result = (new ImageOptimizerCheck())
+    $result = (new ImageOptimizerCheck)
         ->addChecks($optimizer)
         ->run();
 
@@ -73,7 +73,7 @@ it('use timeout', function () {
 
     Process::fake();
 
-    $result = (new ImageOptimizerCheck())
+    $result = (new ImageOptimizerCheck)
         ->timeout(fake()->numberBetween(100, 200))
         ->run();
 

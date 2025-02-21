@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lloricode\SpatieImageOptimizerHealthCheck;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
@@ -26,12 +25,12 @@ class ImageOptimizerCheck extends Check
     }
 
     /**
-     * @param  \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer|array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>  $optimizers
+     * @param  array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>|\Lloricode\SpatieImageOptimizerHealthCheck\Optimizer  $optimizers
      */
     public function addChecks(array|Optimizer $optimizers): self
     {
-        foreach (Arr::wrap($optimizers) as $optimizer) {
-            if (! in_array($optimizer, $this->checks ?? [])) {
+        foreach (is_array($optimizers) ? $optimizers : [$optimizers] as $optimizer) {
+            if (! in_array($optimizer, $this->checks ?? [], true)) {
                 $this->checks[] = $optimizer;
             }
         }
@@ -84,7 +83,7 @@ class ImageOptimizerCheck extends Check
             return true;
         }
 
-        return in_array($optimizer, $this->checks);
+        return in_array($optimizer, $this->checks, true);
     }
 
     /** @deprecated use addChecks() will be removed on v3 */
