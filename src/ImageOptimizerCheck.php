@@ -11,7 +11,7 @@ use Spatie\Health\Checks\Result;
 class ImageOptimizerCheck extends Check
 {
     /**
-     * @var array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>|null
+     * @var array<int, Optimizer>|null
      */
     private ?array $checks = null;
 
@@ -25,7 +25,7 @@ class ImageOptimizerCheck extends Check
     }
 
     /**
-     * @param  array<int, \Lloricode\SpatieImageOptimizerHealthCheck\Optimizer>|\Lloricode\SpatieImageOptimizerHealthCheck\Optimizer  $optimizers
+     * @param  array<int, Optimizer>|Optimizer  $optimizers
      */
     public function addChecks(array|Optimizer $optimizers): self
     {
