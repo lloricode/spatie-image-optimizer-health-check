@@ -40,41 +40,41 @@ class ImageOptimizerCheck extends Check
 
     public function run(): Result
     {
-        $result = Result::make()->ok();
+        $result = Result::make();
 
-        collect(Optimizer::cases())
-            ->each(
-                function (Optimizer $optimizer) use (&$result): bool {
+        /** @var list<string> $ok */
+        $ok = [];
 
-                    if (! $this->shouldPerformCheck($optimizer)) {
-                        return true;
-                    }
+        /** @var list<string> $ok */
+        $failed = [];
 
-                    $checkResult = $this->check($optimizer);
+        foreach (Optimizer::cases() as $optimizer) {
+            if (! $this->shouldPerformCheck($optimizer)) {
+                continue;
+            }
 
-                    if ($checkResult !== true) {
-                        $result = $checkResult;
+            $process = Process::timeout($this->timeout)
+                ->run($optimizer->command());
 
-                        return false;
-                    }
+            if ($process->successful()) {
+                $ok[] = $optimizer->value;
 
-                    return true;
-                }
-            );
-
-        return $result;
-    }
-
-    private function check(Optimizer $optimizer): Result|true
-    {
-        $process = Process::timeout($this->timeout)
-            ->run($optimizer->command());
-
-        if ($process->successful()) {
-            return true;
+            } else {
+                $failed[] = $optimizer->value;
+            }
         }
 
-        return Result::make()->failed($process->errorOutput());
+        $okSummary = self::formatSummary('OK', $ok);
+
+        if (blank($failed)) {
+            return $result->ok()->shortSummary($okSummary);
+        }
+
+        $failedSummary = self::formatSummary('FAILED', $failed);
+
+        $result->shortSummary("{$okSummary} | {$failedSummary}");
+
+        return $result->failed("{$okSummary} | {$failedSummary}");
     }
 
     private function shouldPerformCheck(Optimizer $optimizer): bool
@@ -86,39 +86,13 @@ class ImageOptimizerCheck extends Check
         return in_array($optimizer, $this->checks, true);
     }
 
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkJPEGOPTIM(): self
+    /**
+     * @param  list<string>  $optimizers
+     */
+    private static function formatSummary(string $label, array $optimizers): string
     {
-        return $this->addChecks(Optimizer::JPEGOPTIM);
-    }
+        $summary = blank($optimizers) ? 'none' : implode(', ', $optimizers);
 
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkOPTIPNG(): self
-    {
-        return $this->addChecks(Optimizer::OPTIPNG);
-    }
-
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkPNGQUANT(): self
-    {
-        return $this->addChecks(Optimizer::PNGQUANT);
-    }
-
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkSVGO(): self
-    {
-        return $this->addChecks(Optimizer::SVGO);
-    }
-
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkGIFSICLE(): self
-    {
-        return $this->addChecks(Optimizer::GIFSICLE);
-    }
-
-    /** @deprecated use addChecks() will be removed on v3 */
-    public function checkWEBP(): self
-    {
-        return $this->addChecks(Optimizer::WEBP);
+        return "{$label}: {$summary}";
     }
 }

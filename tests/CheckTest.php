@@ -25,7 +25,9 @@ it('all check ok w/ output', function () {
     $result = (new ImageOptimizerCheck)->run();
 
     expect($result->status)
-        ->toBe(checkOk(), $result->notificationMessage);
+        ->toBe(checkOk(), $result->notificationMessage)
+        ->and($result->shortSummary)
+        ->toBe('OK: jpegoptim, optipng, pngquant, svgo, gifsicle, cwebp');
 
 });
 
@@ -43,8 +45,19 @@ it('failed check w/ only one error', function (Optimizer $optimizer) {
 
     $result = (new ImageOptimizerCheck)->run();
 
+    $okOptimizers = collect(Optimizer::cases())
+        ->reject(fn (Optimizer $candidate) => $candidate === $optimizer)
+        ->map(fn (Optimizer $candidate) => $candidate->value)
+        ->implode(', ');
+
+    $expectedMessage = "OK: {$okOptimizers} | FAILED: {$optimizer->value}";
+
     expect($result->status)
-        ->toBe(checkFailed(), $result->notificationMessage);
+        ->toBe(checkFailed(), $result->notificationMessage)
+        ->and($result->notificationMessage)
+        ->toBe($expectedMessage)
+        ->and($result->shortSummary)
+        ->toBe($expectedMessage);
 
 })
     ->with(fn () => Optimizer::cases());
