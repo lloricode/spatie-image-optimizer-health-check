@@ -12,6 +12,7 @@ enum Optimizer: string
     case SVGO = 'svgo';
     case GIFSICLE = 'gifsicle';
     case WEBP = 'cwebp';
+    case AVIFENC = 'avifenc';
 
     public function command(): string
     {
