@@ -16,7 +16,7 @@ enum Optimizer: string
     public function command(): string
     {
         return match ($this) {
-            self::WEBP => $this->value,
+            self::WEBP => $this->value.' -version',
             default => $this->value.' --version',
         };
     }
