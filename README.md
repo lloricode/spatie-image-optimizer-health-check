@@ -46,6 +46,7 @@ Health::checks([
             Optimizer::SVGO,
             Optimizer::GIFSICLE,
             Optimizer::WEBP,
+            Optimizer::AVIFENC,
         ]),
 ]);
 ```

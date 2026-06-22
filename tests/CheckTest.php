@@ -27,7 +27,7 @@ it('all check ok w/ output', function () {
     expect($result->status)
         ->toBe(checkOk(), $result->notificationMessage)
         ->and($result->shortSummary)
-        ->toBe('OK: jpegoptim, optipng, pngquant, svgo, gifsicle, cwebp');
+        ->toBe('OK: jpegoptim, optipng, pngquant, svgo, gifsicle, cwebp, avifenc');
 
 });
 

@@ -32,6 +32,10 @@ function fakeSuccessAllCommand(): void
             Optimizer::PNGQUANT->command() => Process::result(
                 output: '2.12.0 (January 2018) ..'
             ),
+
+            Optimizer::AVIFENC->command() => Process::result(
+                output: '????'
+            ),
         ]
     );
 }
@@ -72,6 +76,12 @@ function fakeFailedAllCommand(): void
 
             Optimizer::PNGQUANT->command() => Process::result(
                 output: '2.12.0 (January 2018) ..',
+                errorOutput: 'test error',
+                exitCode: 1,
+            ),
+
+            Optimizer::AVIFENC->command() => Process::result(
+                output: '????',
                 errorOutput: 'test error',
                 exitCode: 1,
             ),
