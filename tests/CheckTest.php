@@ -36,7 +36,7 @@ it('failed check w/ only one error', function (Optimizer $optimizer) {
     fakeSuccessAllCommand();
 
     Process::fake([
-        $optimizer->command() => Process::result(
+        toStringCommand($optimizer) => Process::result(
             output: 'test output',
             errorOutput: 'test error',
             exitCode: 1
@@ -67,7 +67,7 @@ it('passed check w/ only one checks', function (Optimizer $optimizer) {
     fakeFailedAllCommand();
 
     Process::fake([
-        $optimizer->command() => Process::result(
+        toStringCommand($optimizer) => Process::result(
             output: 'test output',
         ),
     ]);
