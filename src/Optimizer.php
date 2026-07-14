@@ -14,11 +14,11 @@ enum Optimizer: string
     case WEBP = 'cwebp';
     case AVIFENC = 'avifenc';
 
-    public function command(): string
+    public function command(): array
     {
         return match ($this) {
-            self::WEBP => $this->value.' -version',
-            default => $this->value.' --version',
+            self::WEBP => [$this->value, '-version'],
+            default => [$this->value, '--version'],
         };
     }
 }
