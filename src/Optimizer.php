@@ -14,6 +14,7 @@ enum Optimizer: string
     case WEBP = 'cwebp';
     case AVIFENC = 'avifenc';
 
+    /** @return list<non-empty-string> */
     public function command(): array
     {
         return match ($this) {
